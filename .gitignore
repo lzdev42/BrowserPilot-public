@@ -1,0 +1,22 @@
+# OS files
+.DS_Store
+Thumbs.db
+*.swp
+*.log
+
+# Build artifacts
+dist/
+build/
+out/
+bin/
+
+# Source code checkout (private)
+source/
+
+# Gradle
+.gradle/
+
+# IDE files
+.idea/
+.vscode/
+*.iml

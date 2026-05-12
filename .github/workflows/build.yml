@@ -1,0 +1,135 @@
+name: Build and Release
+
+on:
+  repository_dispatch:
+    types: [build_event]
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: 'Branch or tag to build'
+        required: true
+        default: 'main'
+
+jobs:
+  build:
+    name: Build (${{ matrix.platform }}-${{ matrix.arch }})
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: macos-latest
+            platform: macos
+            arch: AppleSilicon
+          - os: macos-15-intel
+            platform: macos
+            arch: Intel
+          - os: ubuntu-24.04
+            platform: linux
+            arch: x64
+          - os: ubuntu-24.04-arm
+            platform: linux
+            arch: arm64
+          - os: windows-latest
+            platform: windows
+            arch: x64
+
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 60
+
+    env:
+      GRADLE_OPTS: -Dorg.gradle.daemon=false -Dorg.gradle.parallel=true -Dorg.gradle.jvmargs=-Xmx4g
+
+    steps:
+      - name: Checkout Public Repo
+        uses: actions/checkout@v6
+
+      - name: Checkout Source Repo
+        uses: actions/checkout@v6
+        with:
+          repository: lzdev42/BrowserPilot
+          token: ${{ secrets.common }}
+          ref: ${{ github.event.client_payload.ref || github.event.inputs.ref || 'main' }}
+          path: source
+
+      - name: Sync build scripts
+        run: |
+          cp source/setup_camoufox.sh .
+          cp source/build_release.sh .
+          chmod +x setup_camoufox.sh build_release.sh
+        shell: bash
+
+      - name: Install Linux Dependencies
+        if: matrix.platform == 'linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libfuse2 wget
+        shell: bash
+
+      - name: Setup Java 25
+        uses: actions/setup-java@v5
+        with:
+          java-version: '25'
+          distribution: 'jetbrains'
+          cache: 'gradle'
+          cache-dependency-path: source/**/*.gradle*
+        env:
+          GITHUB_TOKEN: ${{ secrets.common }}
+
+      - name: Setup Camoufox
+        run: ./setup_camoufox.sh
+        shell: bash
+        working-directory: source
+
+      - name: Build Release
+        run: ../build_release.sh
+        shell: bash
+        working-directory: source
+
+      - name: Package Windows ZIP
+        if: matrix.platform == 'windows'
+        shell: pwsh
+        run: |
+          Compress-Archive `
+            -Path source/dist/BrowserPilot `
+            -DestinationPath dist/BrowserPilot-x64.zip `
+            -CompressionLevel Optimal `
+            -Force
+
+      - name: Upload Build Artifact (macOS/Linux)
+        if: matrix.platform != 'windows'
+        uses: actions/upload-artifact@v7
+        with:
+          name: BrowserPilot-${{ matrix.platform }}-${{ matrix.arch }}
+          path: |
+            source/dist/*.dmg
+            source/dist/*.AppImage
+          retention-days: 7
+
+      - name: Upload Build Artifact (Windows)
+        if: matrix.platform == 'windows'
+        uses: actions/upload-artifact@v7
+        with:
+          name: BrowserPilot-${{ matrix.platform }}-${{ matrix.arch }}
+          path: dist/*.zip
+          retention-days: 7
+
+  release:
+    name: Create GitHub Release
+    needs: build
+    if: startsWith(github.event.client_payload.ref, 'refs/tags/v') || startsWith(github.event.inputs.ref, 'v')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v8
+        with:
+          path: release-artifacts
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.event.client_payload.ref || github.event.inputs.ref }}
+          files: release-artifacts/**/*
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

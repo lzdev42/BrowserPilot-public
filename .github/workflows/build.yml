@@ -47,7 +47,7 @@ jobs:
         uses: actions/checkout@v6
         with:
           repository: lzdev42/BrowserPilot
-          token: ${{ secrets.common }}
+          token: ${{ secrets.COMMON }}
           ref: ${{ github.event.client_payload.ref || github.event.inputs.ref || 'main' }}
           path: source
 
@@ -73,7 +73,7 @@ jobs:
           cache: 'gradle'
           cache-dependency-path: source/**/*.gradle*
         env:
-          GITHUB_TOKEN: ${{ secrets.common }}
+          GITHUB_TOKEN: ${{ secrets.COMMON }}
 
       - name: Setup Camoufox
         run: ./setup_camoufox.sh

@@ -91,7 +91,7 @@ jobs:
         run: |
           Compress-Archive `
             -Path source/dist/BrowserPilot `
-            -DestinationPath dist/BrowserPilot-x64.zip `
+            -DestinationPath ./BrowserPilot-x64.zip `
             -CompressionLevel Optimal `
             -Force
 
@@ -110,7 +110,7 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: BrowserPilot-${{ matrix.platform }}-${{ matrix.arch }}
-          path: dist/*.zip
+          path: ./*.zip
           retention-days: 7
 
   release:

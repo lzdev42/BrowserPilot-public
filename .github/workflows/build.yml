@@ -116,7 +116,10 @@ jobs:
   release:
     name: Create GitHub Release
     needs: build
-    if: startsWith(github.event.client_payload.ref, 'refs/tags/v') || startsWith(github.event.inputs.ref, 'v')
+    # Must start with 'v' and MUST NOT contain '-dev'
+    if: >-
+      (startsWith(github.event.client_payload.ref, 'refs/tags/v') || startsWith(github.event.inputs.ref, 'v')) &&
+      !(contains(github.event.client_payload.ref, '-dev') || contains(github.event.inputs.ref, '-dev'))
     runs-on: ubuntu-latest
     steps:
       - name: Download all artifacts
@@ -130,6 +133,7 @@ jobs:
           tag_name: ${{ github.event.client_payload.ref || github.event.inputs.ref }}
           files: release-artifacts/**/*
           draft: false
-          prerelease: false
+          # If the version contains '-' (e.g., -alpha, -beta), mark as pre-release
+          prerelease: ${{ contains(github.event.client_payload.ref || github.event.inputs.ref, '-') }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -2,6 +2,14 @@
 
 **The Next-Gen AI Browser Automation Engine. | 下一代 AI 浏览器自动化引擎。**
 
+> [!IMPORTANT]
+> **Operational Status / 运行状态说明**
+> - **MCP Server**: Fully operational with all tools verified in testing. | 已完全可用，各项工具已通过功能测试验证。
+> - **Native Agent**: Functional but in early-access; optimization is ongoing. | 处于早期可用状态，功能尚在完善中。
+>
+> **Model Capability Benchmark (Field Tested) / 模型能力实测建议**
+> Field tests: NVIDIA NIM open-source models and GLM-free models **completely fail** the "selecting a county-level city" task on Boss Zhipin. Gemini 2.5/3 Flash **succeeded**. Other models have not been tested. | 实测：NVIDIA NIM 平台上的开源模型及 GLM 免费版在 Boss 直聘“选择县级市”任务中**全军覆没**。Gemini 2.5/3 Flash **测试成功**，其余模型未实测。
+
 [English](#english) | [中文](#中文)
 
 ---
@@ -11,9 +19,13 @@
 
 BrowserPilot is a high-performance, **native desktop application** designed to bridge the gap between AI Agents and the Web. Unlike traditional script-based automation (Python/Node.js), BrowserPilot provides a zero-setup, stealthy, and powerful environment for automated browsing.
 
-### 🚀 Status & Success Cases
-- **MCP Server Mode [Verified]**: Successfully tested on **Boss Zhipin** (Recruitment platform). Supports automated resume screening and automated chatting via AI Agents.
-- **Agent Mode [WIP]**: Currently under fine-tuning and development.
+### 🚀 Development Roadmap & Status
+- [x] **MCP Server**: Full Model Context Protocol support.
+- [x] **Dual-Mode Parity**: Agent and MCP Server functional alignment.
+- [x] **Autonomous Scripting**: Auto-sensing and script generation for repetitive tasks.
+- [x] **Stealth & Anti-Detection**: Verified bypass of anti-bot systems (e.g., Boss Zhipin).
+- [ ] **Agent Optimization**: Refinement of autonomous execution. (**In Progress**)
+- [ ] **Sharing Ecosystem**: Collaborative platform for sharing automation logic.
 
 ### ✨ Key Features
 - **🖥️ Native Desktop Experience**: Built with Compose Multiplatform. No Python/Node environment required—just download and run.
@@ -27,9 +39,13 @@ BrowserPilot is a high-performance, **native desktop application** designed to b
 
 BrowserPilot 是一款高性能的**原生桌面应用程序**，旨在连接 AI 代理与 Web 世界。与传统的基于脚本（如 Python/Node.js）的自动化工具不同，BrowserPilot 提供了一个零配置、高隐匿且功能强大的自动化浏览器环境。
 
-### 🚀 项目状态与成功案例
-- **MCP Server 模式 [已验证]**：已在 **Boss 直聘** 平台测试成功。支持通过 AI Agent 实现全程自动筛选简历、自动聊天。
-- **Agent 模式 [开发中]**：目前仍在调试优化阶段。
+### 🚀 开发路线图与项目进度
+- [x] **MCP Server**: 完整支持模型上下文协议。
+- [x] **双模式对齐**: Agent 与 MCP Server 功能对齐。
+- [x] **自主脚本**: 重复性任务自动感知与脚本生成。
+- [x] **反检测**: Boss 直聘等严苛环境下的自动化操作验证。
+- [ ] **Agent 完善**: 持续优化执行稳定性。 (**进行中**)
+- [ ] **分享生态**: 规划中的脚本与提示词共享平台。
 
 ### ✨ 核心特性
 - **🖥️ 原生桌面体验**：基于 Compose Multiplatform 构建。无需安装 Python 或 Node.js 环境，下载即用。

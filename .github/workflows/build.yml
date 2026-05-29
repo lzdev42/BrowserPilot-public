@@ -69,6 +69,7 @@ jobs:
         uses: actions/setup-java@v5
         with:
           java-version: '25'
+          java-package: 'jdk+jcef'
           distribution: 'jetbrains'
           cache: 'gradle'
           cache-dependency-path: source/**/*.gradle*

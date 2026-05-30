@@ -53,9 +53,8 @@ jobs:
 
       - name: Sync build scripts
         run: |
-          cp source/setup_camoufox.sh .
           cp source/build_release.sh .
-          chmod +x setup_camoufox.sh build_release.sh
+          chmod +x build_release.sh
         shell: bash
 
       - name: Install Linux Dependencies
@@ -71,15 +70,13 @@ jobs:
           java-version: '25'
           java-package: 'jdk+jcef'
           distribution: 'jetbrains'
+          java-package: 'jdk+jcef'
           cache: 'gradle'
           cache-dependency-path: source/**/*.gradle*
         env:
           GITHUB_TOKEN: ${{ secrets.COMMON }}
 
-      - name: Setup Camoufox
-        run: ./setup_camoufox.sh
-        shell: bash
-        working-directory: source
+
 
       - name: Build Release
         run: ../build_release.sh
@@ -103,7 +100,7 @@ jobs:
           name: BrowserPilot-${{ matrix.platform }}-${{ matrix.arch }}
           path: |
             source/dist/*.dmg
-            source/dist/*.AppImage
+            source/dist/*.tar.gz
           retention-days: 7
 
       - name: Upload Build Artifact (Windows)

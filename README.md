@@ -1,26 +1,39 @@
 # BrowserPilot 🚀
 
-**A desktop application aimed at automating web operations, not for web scraping. | 这是一个桌面应用，旨在自动化执行网页操作，而非用于网络爬虫。**
+这是一个桌面应用，旨在自动化执行网页操作，而非用于网络爬虫。
+A desktop application aimed at automating web operations, not for web scraping.
 
-**Built with Kotlin & Kotlin Multiplatform. Supported platforms follow Camoufox compatibility. | 基于 Kotlin 与 Kotlin 多平台构建，支持的平台同步跟随 Camoufox。**
+基于 Kotlin 与 Kotlin 多平台构建，支持的平台同步跟随 Camoufox。
+Built with Kotlin & Kotlin Multiplatform. Supported platforms follow Camoufox compatibility.
 
 > [!NOTE]
-> **项目状态说明 / Project Status Notice**
+> **项目状态说明**
 > - 本项目主要方便作者本人下载编译后的程序进行测试。目前有许多需要优化的地方，如果您想下载体验，请知晓这本就是一个半成品。
+>
+> **Project Status Notice**
 > - This project is primarily for the author's convenience in downloading and testing compiled binaries. Many parts still need optimization; if you choose to download and try it, please understand that this is a work-in-progress / semi-finished product.
 
 > [!WARNING]
-> **⚠️ 核心提示 / Critical Warning**
-> - **能力完全取决于模型**。用廉价/低端模型根本无法完成任务，怎么优化系统或提示词都没用。即使加了 skill 手把手教学，模型也照样会出错。
-> - **Capability depends entirely on the model**. Cheap or low-end models will fail tasks completely; no amount of optimization will help. Even with hand-holding skills, they will still make mistakes.
+> **⚠️ 核心提示**
+> - **AI Agent 的能力完全取决于 AI 模型自身能力**，工具上的打磨只是让它工作得更稳定高效。如果提示词和 skill 都写明白了，它还是不能让你满意，那就是这个模型满足不了你的需求。打磨再好的桑塔纳，也跑不赢最垃圾的法拉利。
+>
+> **Critical Warning**
+> - **The capability of the AI Agent depends entirely on the AI model itself**. Polishing the tools only makes it work more stably and efficiently. If the prompts and skills are clearly defined and it still fails to satisfy you, then the model itself simply cannot meet your requirements. A highly-tuned Santana still cannot outrun the worst Ferrari.
 
 > [!IMPORTANT]
-> **Operational Status / 运行状态说明**
-> - ~~**MCP Server**: Fully operational with all tools verified in testing. (Deleted)~~ | ~~已完全可用，各项工具已通过功能测试验证。（已删除）~~
-> - **Native Agent**: Functional but in early-access; optimization is ongoing. | 处于早期可用状态，功能尚在完善中。
+> **运行状态说明**
+> - ~~**MCP Server**: 已完全可用，各项工具已通过功能测试验证。（已删除）~~
+> - **Native Agent**: 处于早期可用状态，功能尚在完善中。
 >
-> **Model Capability Benchmark (Field Tested) / 模型能力实测建议**
-> Field tests: NVIDIA NIM open-source models and GLM-free models **completely fail** the "selecting a county-level city" task on Boss Zhipin. Gemini 2.5/3 Flash **succeeded**. Other models have not been tested. | 实测：NVIDIA NIM 平台上的开源模型及 GLM 免费版在 Boss 直聘“选择县级市”任务中**全军覆没**。Gemini 2.5/3 Flash **测试成功**，其余模型未实测。
+> **Operational Status**
+> - ~~**MCP Server**: Fully operational with all tools verified in testing. (Deleted)~~
+> - **Native Agent**: Functional but in early-access; optimization is ongoing.
+>
+> **模型能力实测建议**
+> 实测：NVIDIA NIM 平台上的开源模型及 GLM 免费版在 Boss 直聘“选择县级市”任务中**全军覆没**。Gemini 2.5/3 Flash **测试成功**，其余模型未实测。
+>
+> **Model Capability Benchmark (Field Tested)**
+> Field tests: NVIDIA NIM open-source models and GLM-free models **completely fail** the "selecting a county-level city" task on Boss Zhipin. Gemini 2.5/3 Flash **succeeded**. Other models have not been tested.
 
 [English](#english) | [中文](#中文)
 

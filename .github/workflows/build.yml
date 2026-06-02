@@ -55,6 +55,10 @@ jobs:
         run: |
           cp source/build_release.sh .
           chmod +x build_release.sh
+          if [ -f "source/setup_camoufox.sh" ]; then
+            cp source/setup_camoufox.sh .
+            chmod +x setup_camoufox.sh
+          fi
         shell: bash
 
       - name: Install Linux Dependencies
@@ -64,7 +68,8 @@ jobs:
           sudo apt-get install -y libfuse2 wget
         shell: bash
 
-      - name: Setup Java 25
+      - name: Setup Java 25 (JCEF Branch)
+        if: endsWith(github.event.client_payload.ref, 'jcef') || github.event.inputs.ref == 'jcef'
         uses: actions/setup-java@v5
         with:
           java-version: '25'
@@ -75,8 +80,22 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.COMMON }}
 
+      - name: Setup Java 25 (Main/Non-JCEF Branch)
+        if: !(endsWith(github.event.client_payload.ref, 'jcef') || github.event.inputs.ref == 'jcef')
+        uses: actions/setup-java@v5
+        with:
+          java-version: '25'
+          distribution: 'jetbrains'
+          cache: 'gradle'
+          cache-dependency-path: source/**/*.gradle*
+        env:
+          GITHUB_TOKEN: ${{ secrets.COMMON }}
 
-
+      - name: Setup Camoufox (Main/Non-JCEF Branch)
+        if: !(endsWith(github.event.client_payload.ref, 'jcef') || github.event.inputs.ref == 'jcef')
+        run: ./setup_camoufox.sh
+        shell: bash
+        working-directory: source
       - name: Build Release
         run: ../build_release.sh
         shell: bash
@@ -92,8 +111,18 @@ jobs:
             -CompressionLevel Optimal `
             -Force
 
-      - name: Upload Build Artifact (macOS/Linux)
-        if: matrix.platform != 'windows'
+      - name: Upload Build Artifact (macOS/Linux - JCEF Branch)
+        if: matrix.platform != 'windows' && (endsWith(github.event.client_payload.ref, 'jcef') || github.event.inputs.ref == 'jcef')
+        uses: actions/upload-artifact@v7
+        with:
+          name: BrowserPilot-${{ matrix.platform }}-${{ matrix.arch }}
+          path: |
+            source/dist/*.dmg
+            source/dist/*.AppImage
+          retention-days: 7
+
+      - name: Upload Build Artifact (macOS/Linux - Main/Non-JCEF Branch)
+        if: matrix.platform != 'windows' && !(endsWith(github.event.client_payload.ref, 'jcef') || github.event.inputs.ref == 'jcef')
         uses: actions/upload-artifact@v7
         with:
           name: BrowserPilot-${{ matrix.platform }}-${{ matrix.arch }}
